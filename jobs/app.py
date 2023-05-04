@@ -41,9 +41,9 @@ def job(job_id):
 
 @app.route('/employer/<employer_id>')
 def employer(employer_id):
-    employer = query_db('SELECT * FROM employer WHERE id=?', [employer_id], True)
-    jobs = query_db('SELECT job.id, job.title, job.description, job.salary FROM job JOIN employer ON employer.id = job.employer_id WHERE employer.id = ?', [employer_id])
-    reviews = query_db('SELECT review, rating, title, date, status FROM review JOIN employer ON employer.id = review.employer_id WHERE employer.id = ?', [employer_id])
+    employer = execute_sql('SELECT * FROM employer WHERE id=?', [employer_id], True)
+    jobs = execute_sql('SELECT job.id, job.title, job.description, job.salary FROM job JOIN employer ON employer.id = job.employer_id WHERE employer.id = ?', [employer_id])
+    reviews = execute_sql('SELECT review, rating, title, date, status FROM review JOIN employer ON employer.id = review.employer_id WHERE employer.id = ?', [employer_id])
     return render_template('employer.html', employer=employer, jobs=jobs, reviews=reviews)
 
 @app.route('/employer/<employer_id>/review', methods=('GET', 'POST'))
